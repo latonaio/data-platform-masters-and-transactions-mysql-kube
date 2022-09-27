@@ -9,6 +9,6 @@ data-platfrom-masters-and-transactions-mysql-kube は、データ連携基盤に
 * Kubernetes  
 
 
-## data-platfrom-masters-and-transactions-mysql-kube を用いたエッジコンピューティングアーキテクチャ  
+## data-platfrom-masters-and-transactions-mysql-kube を用いたアーキテクチャ  
 data-platfrom-masters-and-transactions-mysql-kube は、下記の黄色い枠の部分のリソースです。  
 ![mysql_dataplatform](docs/dataplatform-masters-and-transactions_architecture.drawio.png)  
