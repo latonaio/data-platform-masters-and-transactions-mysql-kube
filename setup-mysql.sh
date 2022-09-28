@@ -1,6 +1,6 @@
 #!/bin/bash
 DB_ROOT_NAME="XXXXXXXX" # DBのルートユーザーを指定
-DB_ROOT_PATH="XXXXXXXX" # DBのルートパスを指定
+DB_ROOT_PASSWORD="XXXXXXXX" # DBのルートパスワードを指定
 DB_USER_NAME="XXXXXXXX" # DBのユーザー名を指定
 DB_USER_PASSWORD="XXXXXXXX" # DBのパスワードを指定
 POD_NAME="data-platform-masters-and-transactions-mysql-kube" # Podの名前を指定
