@@ -1,43 +1,43 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: data-platform-masters-and-transactions-mysql-kube # リポジトリによって変更
+  name: mysql-data-platform-masters-and-transactions-mysql-kube # リポジトリによって変更
 spec:
   ports:
     - port: 3306
       nodePort: 30010
   selector:
-    app: mysql
+    app: mysql-data-platform-masters-and-transactions-mysql-kube
   type: NodePort
 ---
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: data-platform-masters-and-transactions-mysql-kube # リポジトリによって変更
+  name: mysql-data-platform-masters-and-transactions-mysql-kube # リポジトリによって変更
 spec:
   selector:
     matchLabels:
-      app: mysql
+      app:  mysql-data-platform-masters-and-transactions-mysql-kube
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: mysql
+        app:  mysql-data-platform-masters-and-transactions-mysql-kube
     spec:
-      # nodeName: mysql-data
-      hostname: mysql-data
+      nodeName: worker
+      hostname: mysql-data-platform-masters-and-transactions-mysql-kube
       containers:
         - image: mariadb:10.6
-          name: mysql
+          name: mysql-data-platform-masters-and-transactions-mysql-kube
           env:
             # Use secret in real usage
             - name: MYSQL_ROOT_PASSWORD
-              value: XXXXXXXX
+              value: root
             - name: MYSQL_USER
-              value: XXXXXXXX
+              value: latona
             - name: MYSQL_PASSWORD
-              value: XXXXXXXX
+              value: L@ton@2020!
             - name: TZ
               value: Asia/Tokyo
           ports:
@@ -51,35 +51,35 @@ spec:
       volumes:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
-            claimName: mysql-pv-claim
+            claimName: mysql-data-platform-masters-and-transactions-mysql-kube-pv-claim
         - name: initdb
           hostPath:
-            path: /mnt/mysql_init
+            path: /mnt/mysql-data-platform-masters-and-transactions-mysql-kube-init
 ---
 # MYSQL
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: mysql-pv-volume
+  name: mysql-data-platform-masters-and-transactions-mysql-kube-pv-volume
   labels:
     type: local
   namespace: default
 spec:
-  storageClassName: mysql
+  storageClassName: mysql-data-platform-masters-and-transactions-mysql-kube
   capacity:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/mnt/data-platform-masters-and-transactions-mysql-kube" # /mnt/{リポジトリ名}を指定
+    path: "/mnt/mysql-data-platform-masters-and-transactions-mysql-kube" # /mnt/{リポジトリ名}を指定
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-pv-claim
+  name: mysql-data-platform-masters-and-transactions-mysql-kube-pv-claim
   namespace: default
 spec:
-  storageClassName: mysql
+  storageClassName: mysql-data-platform-masters-and-transactions-mysql-kube
   accessModes:
     - ReadWriteOnce
   resources:
