@@ -1,35 +1,35 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-data-platform-masters-and-transactions-mysql-kube # リポジトリによって変更
+  name: data-platform-masters-and-transactions-mysql-kube # リポジトリによって変更
 spec:
   ports:
     - port: 3306
       nodePort: 30010
   selector:
-    app: mysql-data-platform-masters-and-transactions-mysql-kube
+    app: data-platform-masters-and-transactions-mysql-kube
   type: NodePort
 ---
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: mysql-data-platform-masters-and-transactions-mysql-kube # リポジトリによって変更
+  name: data-platform-masters-and-transactions-mysql-kube # リポジトリによって変更
 spec:
   selector:
     matchLabels:
-      app:  mysql-data-platform-masters-and-transactions-mysql-kube
+      app:  data-platform-masters-and-transactions-mysql-kube
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app:  mysql-data-platform-masters-and-transactions-mysql-kube
+        app:  data-platform-masters-and-transactions-mysql-kube
     spec:
       nodeName: worker
-      hostname: mysql-data-platform-masters-and-transactions-mysql-kube
+      hostname: data-platform-masters-and-transactions-mysql-kube
       containers:
         - image: mariadb:10.6
-          name: mysql-data-platform-masters-and-transactions-mysql-kube
+          name: data-platform-masters-and-transactions-mysql-kube
           env:
             # Use secret in real usage
             - name: MYSQL_ROOT_PASSWORD
@@ -51,35 +51,35 @@ spec:
       volumes:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
-            claimName: mysql-data-platform-masters-and-transactions-mysql-kube-pv-claim
+            claimName: data-platform-masters-and-transactions-mysql-kube-pv-claim
         - name: initdb
           hostPath:
-            path: /mnt/mysql-data-platform-masters-and-transactions-mysql-kube-init
+            path: /mnt/data-platform-masters-and-transactions-mysql-kube-init
 ---
 # MYSQL
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: mysql-data-platform-masters-and-transactions-mysql-kube-pv-volume
+  name: data-platform-masters-and-transactions-mysql-kube-pv-volume
   labels:
     type: local
   namespace: default
 spec:
-  storageClassName: mysql-data-platform-masters-and-transactions-mysql-kube
+  storageClassName: data-platform-masters-and-transactions-mysql-kube
   capacity:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/mnt/mysql-data-platform-masters-and-transactions-mysql-kube" # /mnt/{リポジトリ名}を指定
+    path: "/mnt/data-platform-masters-and-transactions-mysql-kube" # /mnt/{リポジトリ名}を指定
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-data-platform-masters-and-transactions-mysql-kube-pv-claim
+  name: data-platform-masters-and-transactions-mysql-kube-pv-claim
   namespace: default
 spec:
-  storageClassName: mysql-data-platform-masters-and-transactions-mysql-kube
+  storageClassName: data-platform-masters-and-transactions-mysql-kube
   accessModes:
     - ReadWriteOnce
   resources:
